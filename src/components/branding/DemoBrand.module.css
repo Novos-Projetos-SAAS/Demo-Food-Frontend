@@ -1,0 +1,96 @@
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-text-primary);
+    line-height: 1;
+}
+
+.mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 24%;
+    background: var(--brand-primary-soft);
+    border: 1px solid var(--brand-primary-border);
+    color: var(--brand-primary);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.words {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.words strong {
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.words small {
+    color: var(--color-text-secondary);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+.small .mark {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+}
+
+.small .words strong {
+    font-size: 0.98rem;
+}
+
+.small .words small {
+    font-size: 0.56rem;
+}
+
+.medium .mark {
+    width: 44px;
+    height: 44px;
+    font-size: 1.45rem;
+}
+
+.medium .words strong {
+    font-size: 1.1rem;
+}
+
+.medium .words small {
+    font-size: 0.64rem;
+}
+
+.large .mark {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    font-size: 2.45rem;
+    background: var(--color-surface);
+    border: 4px solid var(--brand-primary);
+}
+
+.large .words strong {
+    font-size: 1.35rem;
+}
+
+.large .words small {
+    font-size: 0.75rem;
+}
+
+.inverse {
+    color: var(--color-on-brand);
+}
+
+.inverse .mark {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: var(--color-on-brand);
+}
+
+.inverse .words small {
+    color: rgba(255, 255, 255, 0.74);
+}

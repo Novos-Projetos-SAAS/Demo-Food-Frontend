@@ -1,0 +1,242 @@
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+
+.actionsBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap; 
+}
+
+.filtersGroup {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+
+.searchWrapper {
+    position: relative;
+    flex: 1 1 200px; 
+    max-width: 400px;
+    min-width: 0;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.searchInput {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 10px 5px 40px;
+    height: 42px;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.searchInput::placeholder {
+    color: var(--color-text-muted);
+}
+
+.searchInput:focus {
+    border-color: var(--brand-primary); 
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.1); 
+}
+
+
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible !important; 
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--color-surface);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+
+.tableContainer table,
+.tableContainer tr,
+.tableContainer td {
+    overflow: visible !important;
+}
+
+.actionCell {
+    overflow: visible !important;
+    text-align: center;
+}
+
+
+.desktopActions {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+    background-color: var(--color-muted-bg);
+    transform: scale(1.05);
+}
+
+
+.mobileActions {
+    display: none; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@media (max-width: 768px) {
+    .actionsBar {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .searchWrapper {
+        width: 100%;
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .tableContainer th,
+    .tableContainer td {
+        padding: 0.75rem 0.5rem;
+    }
+
+
+    .hiddenMobile {
+        display: none !important;
+    }
+
+
+    .desktopActions { display: none !important; }
+    .mobileActions { display: flex; justify-content: center; }
+}
+
+
+
+@media screen {
+    .printOnly {
+        display: none !important;
+    }
+}
+
+@media print {
+    .printOnly {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        z-index: 999999;
+        padding: 20px;
+    }
+
+    .printOnly tfoot tr {
+        background-color: var(--brand-primary) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .printOnly tfoot td {
+        background-color: var(--brand-primary) !important;
+        color: var(--color-on-brand) !important;
+        font-weight: bold !important;
+        border: 1px solid #000 !important;
+        padding: 8px 6px !important;
+        box-shadow: inset 0 0 0 1000px var(--brand-primary) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 640px) {
+    .wrapper {
+        gap: 14px;
+    }
+
+    .actionsBar {
+        gap: 10px;
+    }
+
+    .filtersGroup {
+        width: 100%;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .searchWrapper,
+    .selectWrapper {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        flex-basis: auto;
+    }
+
+    .searchInput,
+    .statusSelect {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .newButton {
+        width: 100%;
+        min-height: 44px;
+        padding: 0 12px;
+        justify-content: center;
+    }
+
+    .tableContainer {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    .tableContainer th,
+    .tableContainer td {
+        padding: 10px 8px;
+    }
+}

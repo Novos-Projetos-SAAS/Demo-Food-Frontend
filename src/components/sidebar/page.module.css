@@ -1,0 +1,365 @@
+/* src/components/Sidebar/page.module.css */
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    min-height: 0;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    z-index: 50;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+/* ============================================================
+   LOGO / CABEÇALHO
+   ============================================================ */
+
+.logoContainer {
+    flex-shrink: 0;
+    height: 70px;
+    padding: 0 18px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+.logoContainer h2 {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.btnFecharMobile {
+    display: none;
+    margin-left: auto;
+    padding: 4px;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.btnFecharMobile:hover {
+    color: var(--color-text-primary);
+    background-color: var(--sidebar-hover);
+}
+
+
+/* ============================================================
+   ÁREA CENTRAL DO MENU
+   ============================================================ */
+
+.menuWrapper {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.nav {
+    width: 100%;
+    height: 100%;
+    padding: 20px 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* IE / Edge antigo */
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Edge, Opera e Safari */
+.nav::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+
+/* ============================================================
+   ITEM DO MENU
+   ============================================================ */
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover {
+    background-color: var(--sidebar-hover);
+    color: var(--color-text-primary);
+}
+
+.navItemAtivo {
+    background-color: var(--brand-primary);
+    color: var(--color-on-brand);
+}
+
+.navItemAtivo:hover {
+    background-color: var(--brand-primary-hover);
+}
+
+
+/* ============================================================
+   ÁREA DOS INDICADORES
+   ============================================================ */
+
+/**
+ * Essas áreas criam o degradê no topo ou no final do menu.
+ * pointer-events: none permite continuar utilizando o scroll
+ * normalmente sobre o degradê.
+ */
+.scrollAreaIndicator {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 58px;
+    display: flex;
+    justify-content: center;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.scrollAreaTop {
+    top: 0;
+    align-items: flex-start;
+    padding-top: 7px;
+    background: linear-gradient(
+        to bottom,
+        var(--sidebar-bg) 0%,
+        color-mix(in srgb, var(--sidebar-bg) 92%, transparent) 48%,
+        transparent 100%
+    );
+}
+
+.scrollAreaBottom {
+    bottom: 0;
+    align-items: flex-end;
+    padding-bottom: 7px;
+    background: linear-gradient(
+        to top,
+        var(--sidebar-bg) 0%,
+        color-mix(in srgb, var(--sidebar-bg) 92%, transparent) 48%,
+        transparent 100%
+    );
+}
+
+
+/* ============================================================
+   BOTÕES DOS INDICADORES
+   ============================================================ */
+
+.scrollIndicator {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sidebar-hover);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--sidebar-border);
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 3px 10px rgba(var(--shadow-rgb), 0.08);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scrollIndicator:hover {
+    background-color: var(--brand-primary-soft);
+    color: var(--brand-primary);
+    border-color: var(--brand-primary-border);
+    box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.10);
+}
+
+
+/* ============================================================
+   INDICADOR SUPERIOR
+   ============================================================ */
+
+.scrollIndicatorTop {
+    animation: none;
+}
+
+@keyframes sidebarScrollPulseUp {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.78;
+    }
+
+    50% {
+        transform: translateY(-4px) scale(1.08);
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================
+   INDICADOR INFERIOR
+   ============================================================ */
+
+.scrollIndicatorBottom {
+    animation: none;
+}
+
+@keyframes sidebarScrollPulseDown {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.78;
+    }
+
+    50% {
+        transform: translateY(4px) scale(1.08);
+        opacity: 1;
+    }
+}
+
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
+
+.logoutContainer {
+    flex-shrink: 0;
+    height: 70px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--sidebar-border);
+    background-color: var(--sidebar-bg);
+}
+
+.btnLogout {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-danger);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btnLogout:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+
+/* ============================================================
+   ACESSIBILIDADE
+   ============================================================ */
+
+/**
+ * Usuários que solicitaram redução de movimentos no sistema
+ * não recebem a animação pulsante.
+ */
+@media (prefers-reduced-motion: reduce) {
+    .scrollIndicatorTop,
+    .scrollIndicatorBottom {
+        animation: none;
+    }
+
+    .nav {
+        scroll-behavior: auto;
+    }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100dvh;
+        transform: translateX(-100%);
+        box-shadow: 6px 0 20px rgba(var(--shadow-rgb), 0.12);
+    }
+
+    .sidebarAberta {
+        transform: translateX(0);
+    }
+
+    .btnFecharMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+
+/* Ajustes finais da sidebar clara */
+.sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+}
+
+.logoContainer { border-color: var(--sidebar-border); }
+.btnLogout { color: var(--color-danger); }
+.btnLogout:hover { background: var(--color-danger-soft); }
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 768px) {
+    .sidebar {
+        width: min(86vw, 280px);
+        max-width: 280px;
+    }
+
+    .logoContainer {
+        height: 60px;
+        padding: 0 12px 0 16px;
+    }
+
+    .nav {
+        padding: 12px 8px;
+        gap: 4px;
+    }
+
+    .navItem {
+        min-height: 44px;
+        padding: 10px 12px;
+    }
+
+    .logoutContainer {
+        height: 62px;
+        padding: 0 8px;
+    }
+}

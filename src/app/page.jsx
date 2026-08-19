@@ -1,0 +1,228 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import {
+    BookOpen,
+    ClipboardList,
+    MapPin,
+    MessageCircle,
+    Send,
+    ShoppingBag
+} from 'lucide-react';
+import toast from 'react-hot-toast';
+
+import { useLoja } from '@/hooks/useLoja.js';
+import { useDadosEmpresaPublicos } from '@/hooks/useDadosEmpresaPublicos.js';
+import { usePedido } from '@/context/PedidoContext.js';
+
+import DemoBrand from '@/components/branding/DemoBrand.jsx';
+
+import styles from './page.module.css';
+
+
+export default function Home() {
+    const router = useRouter();
+    const { statusLoja, loading } = useLoja();
+    const { carrinho, totalGeral, quantidadeTotalItens, validarLojaParaAcao } = usePedido();
+    const { dados, loadingDados } = useDadosEmpresaPublicos();
+
+    const NOME_LOJA = dados?.nome_fantasia || 'Demo Food';
+    const WHATSAPP_LOJA = dados?.whatsapp || '';
+
+    const enderecoCompleto = () => {
+        if (!dados?.cep || !dados?.logradouro || !dados?.numero) {
+            return null;
+        }
+
+        return `${dados.logradouro}, ${dados.numero}`;
+    };
+
+    
+
+    const enderecoFormatado = enderecoCompleto();
+
+    const abrirCardapio = async () => {
+        if (loading) return;
+
+        const lojaValida = await validarLojaParaAcao();
+        if (!lojaValida) return;
+
+        router.push('/pedido');
+    };
+
+    const abrirCarrinho = async () => {
+        const lojaValida = await validarLojaParaAcao();
+        if (!lojaValida) return;
+
+        router.push('/carrinho');
+    };
+
+    const abrirWhatsApp = () => {
+        if (!WHATSAPP_LOJA) {
+            toast.error('WhatsApp da empresa não configurado.');
+            return;
+        }
+
+        const numeroWhatsApp = String(WHATSAPP_LOJA).replace(/\D/g, '');
+
+        window.open(
+            `https://wa.me/${numeroWhatsApp}`,
+            '_blank',
+            'noopener,noreferrer'
+        );
+    };
+
+    const compartilhar = async () => {
+        const dadosCompartilhamento = {
+            title: NOME_LOJA,
+            text: `Confira o cardápio da ${NOME_LOJA}!`,
+            url: window.location.href
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(dadosCompartilhamento);
+            } catch {
+                return;
+            }
+
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            toast.success('Link copiado!');
+        } catch {
+            toast.error('Não foi possível compartilhar o link.');
+        }
+    };
+
+    return (
+        <main className={styles.mainContainer}>
+            <div className={styles.appCard}>
+                <section className={styles.capa}>
+                    <div className={styles.capaDecoracao} aria-hidden="true">
+                        <span className={styles.orbitaUm}></span>
+                        <span className={styles.orbitaDois}></span>
+                        <span className={styles.orbitaTres}></span>
+                    </div>
+                    <div className={styles.capaConteudo}>
+                        <span className={styles.capaTag}>AMBIENTE DE DEMONSTRAÇÃO</span>
+                        <strong>Pedidos, cardápio e gestão em um só lugar.</strong>
+                    </div>
+                </section>
+
+                <section className={styles.infoLoja}>
+                    <div className={styles.logoWrap}>
+                        <DemoBrand markOnly size="large" />
+                    </div>
+
+                    <div className={styles.dadosLoja}>
+                        <h1>
+                            {loadingDados ? 'Carregando...' : NOME_LOJA}
+                        </h1>
+
+                        {dados?.endereco && (
+                            <p className={styles.endereco}>
+                                <MapPin size={16} />
+
+                                <span>
+                                    {dados.endereco}
+                                </span>
+                            </p>
+                        )}
+
+                        {enderecoFormatado && (
+                            <p className={styles.endereco}>
+                                <MapPin size={16} />
+                                <span>{enderecoFormatado}</span>
+                            </p>
+                        )}
+
+                        <span
+                            className={`${styles.status} ${statusLoja
+                                ? styles.aberto
+                                : styles.fechado
+                                }`}
+                        >
+                            {loading
+                                ? 'Verificando horário...'
+                                : statusLoja
+                                    ? 'Aberto'
+                                    : 'Fechado'}
+                        </span>
+
+
+                    </div>
+                </section>
+
+                <section className={styles.actions}>
+                    <button
+                        type="button"
+                        className={styles.primaryButton}
+                        onClick={abrirCardapio}
+                        disabled={loading}
+                    >
+                        <BookOpen size={20} />
+                        Ver cardápio
+                    </button>
+
+                    {/* <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={abrirWhatsApp}
+                    >
+                        <MessageCircle size={20} />
+                        WhatsApp
+                    </button> */}
+
+                    <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={() => router.push('/acompanhar')}
+                    >
+                        <ClipboardList size={19} />
+                        Acompanhar pedido
+                    </button>
+
+
+
+                    <button
+                        type="button"
+                        className={styles.linkButton}
+                        onClick={compartilhar}
+                    >
+                        <Send size={19} />
+                        Compartilhar
+                    </button>
+                </section>
+
+                {carrinho.length > 0 && (
+                    <div className={styles.carrinhoFlutuante}>
+                        <button
+                            type="button"
+                            onClick={abrirCarrinho}
+                        >
+                            <span className={styles.carrinhoInfo}>
+                                <ShoppingBag size={18} />
+
+                                <span>
+                                    {quantidadeTotalItens}{' '}
+                                    {quantidadeTotalItens === 1
+                                        ? 'item'
+                                        : 'itens'}
+                                </span>
+                            </span>
+
+                            <strong>
+                                R$ {Number(totalGeral || 0)
+                                    .toFixed(2)
+                                    .replace('.', ',')}
+                            </strong>
+                        </button>
+                    </div>
+                )}
+            </div>
+        </main>
+    );
+}

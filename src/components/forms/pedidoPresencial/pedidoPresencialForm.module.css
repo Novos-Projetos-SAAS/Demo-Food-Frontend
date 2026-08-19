@@ -1,0 +1,366 @@
+
+.cardGeral {
+    background: white; 
+    border: 1px solid var(--color-border);
+    border-radius: 12px; 
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+}
+
+.header h2 { 
+    margin: 0 0 6px 0; 
+    color: var(--color-text-primary); 
+}
+
+.textHint { 
+    color: var(--color-text-secondary); 
+    font-size: 0.95rem; 
+    margin: 0; 
+}
+
+.btnFechar {
+    background: var(--color-muted-bg);
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: 0.2s;
+}
+
+.btnFechar:hover { 
+    background: var(--color-danger-soft); 
+    color: var(--color-danger); 
+}
+
+/* Estrutura Principal */
+.gridForm {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2.5rem;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
+    color: var(--color-text-primary);
+    margin: 1.5rem 0 1rem 0;
+    border-bottom: 2px solid #f4f4f5;
+    padding-bottom: 8px;
+}
+
+.sectionTitle:first-child { 
+    margin-top: 0; 
+}
+
+/* Inputs */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+}
+
+.inputGroup label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: inherit;
+}
+
+.inputGroup textarea {
+    resize: vertical;
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus,
+.inputGroup textarea:focus {
+    border-color: var(--brand-primary);
+}
+
+.rowInputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Área de Itens (PDV) */
+.colunaItens {
+    background: var(--color-page-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.headerItens {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerItens .sectionTitle { 
+    border: none; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.btnAddItem {
+    background: var(--brand-primary);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btnAddItem:hover { 
+    background: var(--sidebar-hover); 
+}
+
+.listaItens {
+    margin-top: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emptyCart {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 2rem 0;
+    font-size: 0.95rem;
+    border: 2px dashed var(--color-border);
+    border-radius: 8px;
+}
+
+.itemCart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+}
+
+.itemCartInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemCartInfo strong { 
+    color: var(--color-text-primary); 
+    font-size: 0.95rem; 
+}
+
+.itemCartInfo small { 
+    color: var(--color-text-secondary); 
+    font-size: 0.85rem; 
+}
+
+.btnRemoveItem {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.btnRemoveItem:hover { 
+    color: var(--color-danger); 
+}
+
+/* Footer / Botões */
+.footerAcoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.btnCancelar {
+    background: white;
+    border: 1px solid var(--color-border);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.btnCancelar:hover { 
+    background: var(--color-muted-bg); 
+}
+
+.btnSalvar {
+    background: var(--brand-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btnSalvar:hover:not(:disabled) { 
+    background: var(--brand-primary-hover); 
+}
+
+.btnSalvar:disabled { 
+    opacity: 0.7; 
+    cursor: not-allowed; 
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .gridForm { grid-template-columns: 1fr; }
+    .footerAcoes { flex-direction: column-reverse; }
+    .btnSalvar, .btnCancelar { width: 100%; justify-content: center; }
+}
+
+/* Adições para as Categorias e Loading */
+.grupoCategoria {
+    margin-bottom: 1.2rem;
+}
+
+.tituloCategoria {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4px;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    color: var(--brand-primary);
+    gap: 10px;
+    font-weight: 500;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+.emptyCardapio {
+    color: var(--color-danger);
+    font-size: 0.95rem;
+    padding: 1rem;
+    background: var(--color-danger-soft);
+    border-radius: 8px;
+    text-align: center;
+}
+
+@keyframes spin { 
+    100% { transform: rotate(360deg); } 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 640px) {
+    .cardGeral {
+        padding: 14px 12px;
+        gap: 14px;
+        border-radius: 10px;
+    }
+
+    .header {
+        gap: 10px;
+    }
+
+    .gridForm,
+    .rowInputs {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .colunaItens {
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .headerItens {
+        align-items: flex-start;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btnAddItem {
+        min-height: 40px;
+    }
+
+    .inputGroup input,
+    .inputGroup select,
+    .inputGroup textarea {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    .itemCart {
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .itemCartInfo {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .footerAcoes {
+        margin-top: 0;
+        padding-top: 14px;
+        gap: 8px;
+    }
+}

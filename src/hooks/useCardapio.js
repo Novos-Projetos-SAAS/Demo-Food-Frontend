@@ -1,0 +1,131 @@
+
+'use client'
+
+import { useState, useEffect } from "react";
+import { buscarCardapioCompleto, toggleDisponibilidade, zerarCardapioDiario } from "@/services/cardapioService.js";
+import Swal from "sweetalert2";
+
+export function useCardapio() {
+    const [alimentos, setAlimentos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // 🚀 1. O EFEITO DE MONTAGEM (À prova do Next.js)
+    // Definimos a função async DENTRO do useEffect. O React ama isso e não reclama.
+    useEffect(() => {
+        let isMounted = true;
+
+        async function carregarInicial() {
+            try {
+                const data = await buscarCardapioCompleto();
+                if (isMounted) setAlimentos(data);
+            } catch (error) {
+                if (isMounted) Swal.fire('Erro', 'Não foi possível carregar os itens do cardápio.', 'error');
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        carregarInicial();
+
+        // Cleanup function evita vazamento de memória se o usuário mudar de tela rápido
+        return () => { isMounted = false; };
+    }, []); 
+
+    // 🚀 2. FUNÇÃO MANUAL (Para ser usada pelos botões, como o de Zerar)
+    const recarregarCardapioManualmente = async () => {
+        setLoading(true);
+        try {
+            const data = await buscarCardapioCompleto();
+            setAlimentos(data);
+        } catch (error) {
+            Swal.fire('Erro', 'Não foi possível atualizar a tela.', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // 🚀 Ação da Chavinha (Toggle)
+    const handleToggle = async (id, currentStatus) => {
+        const novoStatus = !currentStatus;
+        
+        // Atualização otimista na tela
+        setAlimentos(prev => prev.map(item => 
+            item.id === id ? { ...item, disponivel_hoje: novoStatus } : item
+        ));
+
+        try {
+            await toggleDisponibilidade(id, novoStatus);
+        } catch (error) {
+            setAlimentos(prev => prev.map(item => 
+                item.id === id ? { ...item, disponivel_hoje: currentStatus } : item
+            ));
+            Swal.fire('Erro', 'Falha ao conectar com o servidor.', 'error');
+        }
+    };
+
+    // 🚀 Botão Vermelho (Zerar tudo e Fechar Loja)
+    const handleZerarCardapio = async () => {
+        const result = await Swal.fire({
+            title: 'Encerrar Expediente?',
+            text: "TODOS os alimentos ficarão indisponíveis para venda e a loja será fechada.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Sim, encerrar tudo!',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            setLoading(true);
+            try {
+                // Aqui você pode adicionar a lógica de fechar a loja no backend como conversamos
+                await zerarCardapioDiario(); 
+                
+                // Recarrega a tela usando a função manual
+                await recarregarCardapioManualmente(); 
+                
+                await Swal.fire({
+                    title: 'Expediente Encerrado!',
+                    text: 'A loja foi fechada e o cardápio está zerado.',
+                    icon: 'success',
+                    iconColor: '#16a34a', // Ícone de check verde limpo
+                    confirmButtonColor: '#16a34a', // Botão usando o laranja da sua marca
+                    
+                    background: '#ffffff',
+                    color: '#27272a'
+                });
+
+                return true; // Retorna true para indicar que a ação foi concluída
+            } catch (error) {
+                Swal.fire({
+                    title: 'Ops! Algo deu errado',
+                    text: 'Falha ao tentar encerrar o expediente. Verifique a sua ligação.',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444', // 🔴 Botão Vermelho para erro
+                    confirmButtonText: 'Fechar'
+                });
+                setLoading(false);
+            }
+        }
+
+        return false; // Retorna false se o usuário cancelar a ação ou se ocorrer um erro
+    };
+
+    // Agrupa os dados para a interface
+    const cardapioAgrupado = alimentos.reduce((acc, alimento) => {
+        const categoria = alimento.categoria_nome || 'Outros';
+        if (!acc[categoria]) {
+            acc[categoria] = [];
+        }
+        acc[categoria].push(alimento);
+        return acc;
+    }, {});
+
+    return {
+        cardapioAgrupado,
+        loading,
+        handleToggle,
+        handleZerarCardapio
+    };
+}

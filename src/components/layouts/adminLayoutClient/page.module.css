@@ -1,0 +1,79 @@
+/* src/components/layouts/adminLayoutClient/adminLayoutClient.module.css */
+
+.layoutContainer {
+    display: flex;
+    height: 100vh;
+    background-color: var(--color-muted-bg); /* Fundo cinza clarinho para o painel */
+    font-family: inherit;
+    overflow: hidden;
+}
+
+/* =========================================
+   CONTEÚDO PRINCIPAL (Header + Página)
+========================================= */
+.mainContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* =========================================
+   ÁREA DE RENDERIZAÇÃO DAS PÁGINAS
+========================================= */
+.pageContent {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto; /* Permite rolar a página sem mexer no header/sidebar */
+}
+
+/* =========================================
+   RESPONSIVO (CELULARES E TABLETS)
+========================================= */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+    z-index: 40; /* Fica atrás da Sidebar (z-index 50) mas na frente de todo o resto */
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+.mainContent {
+    min-width: 0;
+}
+
+.pageContent {
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .pageContent {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .layoutContainer {
+        width: 100%;
+        min-height: 100dvh;
+        height: 100dvh;
+    }
+
+    .mainContent {
+        width: 100%;
+    }
+
+    .pageContent {
+        width: 100%;
+        padding: 14px 12px 24px;
+        overflow-x: hidden;
+        overscroll-behavior-x: none;
+    }
+
+    .backdrop {
+        background-color: rgba(24, 24, 27, 0.28);
+    }
+}

@@ -1,0 +1,142 @@
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background: var(--color-surface);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cardSection {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 24px;
+    background: #f8fafc;
+}
+
+.cardSection legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    background: var(--color-surface);
+    padding: 4px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* ==========================================
+   ÁREA DE AÇÕES E BOTÃO DE SALVAR
+   ========================================== */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border); /* Cria uma linha divisória discreta */
+}
+
+.btnSave {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--brand-primary); /* Laranja da marca */
+    color: var(--color-on-brand);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(var(--brand-primary-rgb), 0.2), 0 2px 4px -1px rgba(var(--brand-primary-rgb), 0.1);
+    min-width: 220px;
+}
+
+.btnSave:hover:not(:disabled) {
+    background-color: var(--brand-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(var(--brand-primary-rgb), 0.3), 0 4px 6px -1px rgba(var(--brand-primary-rgb), 0.2);
+}
+
+.btnSave:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* Estado de salvamento (desabilitado) */
+.btnSave:disabled {
+    background-color: #fca5a5;
+    color: #fef2f2;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Texto de carregamento inicial */
+.loadingText {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+.gridContainer {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+
+@media (max-width: 640px) {
+    .formContainer {
+        gap: 14px;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .cardSection {
+        min-width: 0;
+        padding: 14px 12px 16px;
+        border-radius: 10px;
+        background: var(--color-surface);
+    }
+
+    .cardSection legend {
+        max-width: calc(100% - 8px);
+        padding: 4px 8px;
+        gap: 6px;
+        line-height: 1.25;
+        white-space: normal;
+    }
+
+    .gridContainer {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+        margin-top: 12px;
+    }
+
+    .actions {
+        margin-top: 4px;
+        padding-top: 14px;
+    }
+
+    .btnSave {
+        width: 100%;
+        min-width: 0;
+        min-height: 46px;
+        padding: 10px 12px;
+        box-shadow: none;
+    }
+}

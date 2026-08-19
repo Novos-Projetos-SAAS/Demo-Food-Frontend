@@ -1,0 +1,299 @@
+/* src/app/login/page.module.css */
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--color-page-bg); /* Fundo cinza bem clarinho */
+    padding: 20px;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.card {
+    background: var(--color-surface);
+    width: 100%;
+    max-width: 420px;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+}
+
+/* HEADER DO LOGIN */
+.header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logoWrap {
+    background-color: var(--brand-primary);
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 6px 15px rgba(var(--brand-primary-rgb), 0.3);
+    transform: rotate(-5deg); /* Dá um charminho tortinho */
+}
+
+.header h1 {
+    font-size: 1.6rem;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+/* FORMULÁRIO E INPUTS */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+
+/* 
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+} */
+
+
+.icon {
+    position: absolute;
+    left: 14px;
+    color: var(--color-text-muted);
+}
+
+/* .inputWrapper input {
+    width: 100%;
+    padding: 14px 14px 14px 44px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    background-color: var(--color-muted-bg);
+} */
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.inputWrapper input {
+    width: 100%;
+    /* Aumentamos o padding-right para 44px para o texto não bater no olho */
+    padding: 14px 44px 14px 44px; 
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    background-color: var(--color-muted-bg);
+}
+
+/* NOVA CLASSE PARA O BOTÃO DO OLHO */
+.eyeButton {
+    position: absolute;
+    right: 14px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted); /* Mesma cor do ícone de cadeado */
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.eyeButton:hover {
+    color: var(--brand-primary); /* Muda para laranja no hover */
+}
+
+.inputWrapper input:focus {
+    border-color: var(--brand-primary);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.15);
+}
+
+.inputWrapper input:disabled {
+    background-color: var(--color-muted-bg);
+    cursor: not-allowed;
+    color: var(--color-text-muted);
+}
+
+/* BOTÃO DE ACESSO */
+.btnAcessar {
+    background-color: var(--brand-primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.btnAcessar:hover:not(:disabled) {
+    background-color: var(--brand-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(var(--brand-primary-rgb), 0.25);
+}
+
+.btnAcessar:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btnAcessar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* Ajustes visuais da DEMO: claros, discretos e sem gradientes pesados */
+.container {
+    background: var(--color-page-bg);
+    color: var(--color-text-primary);
+}
+
+.card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(var(--shadow-rgb), 0.07);
+}
+
+.brandWrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.header h1 { color: var(--color-text-primary); }
+.header p { color: var(--color-text-secondary); }
+.inputGroup label { color: var(--color-text-primary); }
+
+.inputWrapper input {
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+.inputWrapper input:focus {
+    border-color: var(--brand-primary);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.10);
+}
+
+.icon, .eyeButton { color: var(--color-text-muted); }
+.eyeButton:hover { color: var(--brand-primary); }
+
+.btnAcessar {
+    background: var(--brand-primary);
+    color: var(--color-on-brand);
+    box-shadow: none;
+}
+
+.btnAcessar:hover:not(:disabled) {
+    background: var(--brand-primary-hover);
+    transform: none;
+    box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.16);
+}
+
+.demoCredentials {
+    margin-top: 22px;
+    padding: 13px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-muted-bg);
+    display: grid;
+    gap: 5px;
+    text-align: center;
+}
+
+.demoCredentials span {
+    color: var(--color-text-secondary);
+    font-size: .76rem;
+    font-weight: 600;
+}
+
+.demoCredentials code {
+    color: var(--color-text-primary);
+    font-size: .86rem;
+    font-weight: 600;
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 640px) {
+    .container {
+        min-height: 100dvh;
+        padding: 14px 12px;
+        align-items: center;
+    }
+
+    .card {
+        max-width: 100%;
+        padding: 24px 16px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(var(--shadow-rgb), 0.06);
+    }
+
+    .header {
+        margin-bottom: 24px;
+    }
+
+    .header h1 {
+        font-size: 1.4rem;
+    }
+
+    .form {
+        gap: 16px;
+    }
+
+    .inputWrapper input {
+        min-height: 48px;
+        font-size: 16px;
+        padding-left: 42px;
+        padding-right: 42px;
+    }
+
+    .btnAcessar {
+        min-height: 48px;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .demoCredentials {
+        margin-top: 18px;
+        padding: 12px 10px;
+        overflow-wrap: anywhere;
+    }
+}

@@ -1,0 +1,27 @@
+/* src/app/(dashboard)/admin/configuracoes/page.module.css */
+
+.container {
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.pageTitle {
+    color: var(--color-text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 640px) {
+    .pageTitle {
+        font-size: 1.3rem;
+        line-height: 1.25;
+        margin-bottom: 14px;
+    }
+}

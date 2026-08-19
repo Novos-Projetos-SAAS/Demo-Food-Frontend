@@ -1,0 +1,603 @@
+/* .overlay { 
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background: rgba(0,0,0,0.6); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 100; 
+    padding: 20px; 
+}
+
+.modal { 
+    background: white; 
+    width: 100%; 
+    max-width: 550px; 
+    border-radius: 12px; 
+    display: flex; 
+    flex-direction: column; 
+    max-height: 90vh; 
+    animation: slideUp 0.2s ease-out; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1.2rem 1.5rem; 
+    border-bottom: 1px solid var(--color-border); 
+}
+
+.header h3 { 
+    margin: 0; 
+    color: var(--color-text-primary); 
+}
+
+.btnFechar { 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: var(--color-text-secondary); 
+    padding: 6px; 
+    border-radius: 6px; 
+    display: flex;
+}
+
+.btnFechar:hover { 
+    background: var(--color-danger-soft); 
+    color: var(--color-danger); 
+}
+
+.body { 
+    padding: 1.5rem; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.5rem; 
+}
+
+.secao h4 { 
+    margin: 0 0 10px 0; 
+    color: var(--color-text-primary); 
+    font-size: 1rem; 
+}
+
+.selectModal { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    color: var(--color-text-primary); 
+    outline: none; 
+    background: white;
+}
+
+.selectModal:focus { 
+    border-color: var(--brand-primary); 
+}
+
+
+.grupoCategoria {
+    margin-bottom: 1.2rem;
+}
+
+.tituloCategoria {
+    margin: 0 0 10px 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4px;
+}
+
+.gridAlimentos { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+}
+
+.cardAlimento { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px 12px; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    user-select: none; 
+    color: var(--color-text-primary);
+}
+
+.cardAlimento:hover { 
+    border-color: var(--color-border); 
+    background: var(--color-page-bg); 
+}
+
+.cardAlimento.selecionado { 
+    border-color: var(--brand-primary); 
+    background: var(--brand-primary-soft); 
+    color: #9a3412;
+    font-weight: 500;
+}
+
+.checkboxOculto { 
+    display: none; 
+}
+
+.checkIcon { 
+    width: 18px; 
+    height: 18px; 
+    border-radius: 4px; 
+    border: 1px solid var(--color-border); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: white; 
+    flex-shrink: 0;
+}
+
+.selecionado .checkIcon { 
+    background: var(--brand-primary); 
+    border-color: var(--brand-primary); 
+}
+
+.secaoHorizontal { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: var(--color-page-bg); 
+    padding: 1rem; 
+    border-radius: 8px; 
+    border: 1px solid var(--color-border);
+}
+
+.secaoHorizontal h4 { 
+    margin: 0; 
+    color: var(--color-text-primary); 
+}
+
+.contador { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    background: white; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    padding: 4px; 
+}
+
+.contador button { 
+    background: var(--color-muted-bg); 
+    border: none; 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    color: var(--color-text-primary); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contador button:hover { 
+    background: #e4e4e7; 
+}
+
+.contador span { 
+    font-weight: 600; 
+    width: 24px; 
+    text-align: center; 
+    color: var(--color-text-primary);
+}
+
+.footer { 
+    padding: 1.2rem 1.5rem; 
+    border-top: 1px solid var(--color-border); 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 12px; 
+    background: var(--color-page-bg);
+    border-radius: 0 0 12px 12px;
+}
+
+.btnCancelar { 
+    background: white; 
+    border: 1px solid var(--color-border); 
+    padding: 10px 18px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    color: var(--color-text-primary); 
+}
+
+.btnConfirmar { 
+    background: var(--brand-primary); 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+}
+
+.btnConfirmar:hover { background: var(--brand-primary-hover); }
+.btnConfirmar:disabled, .btnCancelar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    color: var(--brand-primary);
+    gap: 12px;
+    font-weight: 500;
+}
+
+.spin { animation: spin 1s linear infinite; }
+.emptyCardapio { color: var(--color-danger); font-size: 0.95rem; padding: 1rem; background: var(--color-danger-soft); border-radius: 8px; text-align: center; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 600px) {
+    .gridAlimentos { grid-template-columns: 1fr; }
+}
+.listaProdutos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.produtoLinha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+}
+
+.produtoInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--color-text-primary);
+}
+
+.produtoInfo span {
+    color: var(--brand-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.secao h4 small {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+} */
+
+
+.overlay { 
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background: rgba(0,0,0,0.6); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 100; 
+    padding: 20px; 
+}
+
+.modal { 
+    background: white; 
+    width: 100%; 
+    max-width: 550px; 
+    border-radius: 12px; 
+    display: flex; 
+    flex-direction: column; 
+    max-height: 90vh; 
+    animation: slideUp 0.2s ease-out; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1.2rem 1.5rem; 
+    border-bottom: 1px solid var(--color-border); 
+}
+
+.header h3 { 
+    margin: 0; 
+    color: var(--color-text-primary); 
+}
+
+.btnFechar { 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: var(--color-text-secondary); 
+    padding: 6px; 
+    border-radius: 6px; 
+    display: flex;
+}
+
+.btnFechar:hover { 
+    background: var(--color-danger-soft); 
+    color: var(--color-danger); 
+}
+
+.body { 
+    padding: 1.5rem; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.5rem; 
+}
+
+.secao h4 { 
+    margin: 0 0 10px 0; 
+    color: var(--color-text-primary); 
+    font-size: 1rem; 
+}
+
+.secao h4 small {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+}
+
+.selectModal, .textareaModal { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    font-size: 1rem; 
+    color: var(--color-text-primary); 
+    outline: none; 
+    background: white;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.textareaModal {
+    resize: vertical;
+}
+
+.selectModal:focus, .textareaModal:focus { 
+    border-color: var(--brand-primary); 
+}
+
+/* Agrupamento de Categorias */
+.grupoCategoria {
+    margin-bottom: 1.2rem;
+}
+
+.tituloCategoria {
+    margin: 0 0 10px 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4px;
+}
+
+.gridAlimentos { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+}
+
+.cardAlimento { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px 12px; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    user-select: none; 
+    color: var(--color-text-primary);
+}
+
+.cardAlimento:hover { 
+    border-color: var(--color-border); 
+    background: var(--color-page-bg); 
+}
+
+.cardAlimento.selecionado { 
+    border-color: var(--brand-primary); 
+    background: var(--brand-primary-soft); 
+    color: #9a3412;
+    font-weight: 500;
+}
+
+.checkboxOculto { 
+    display: none; 
+}
+
+.checkIcon { 
+    width: 18px; 
+    height: 18px; 
+    border-radius: 4px; 
+    border: 1px solid var(--color-border); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background: white; 
+    flex-shrink: 0;
+}
+
+.selecionado .checkIcon { 
+    background: var(--brand-primary); 
+    border-color: var(--brand-primary); 
+}
+
+.secaoHorizontal { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background: var(--color-page-bg); 
+    padding: 1rem; 
+    border-radius: 8px; 
+    border: 1px solid var(--color-border);
+}
+
+.secaoHorizontal h4 { 
+    margin: 0; 
+    color: var(--color-text-primary); 
+}
+
+.contador { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    background: white; 
+    border: 1px solid var(--color-border); 
+    border-radius: 8px; 
+    padding: 4px; 
+}
+
+.contador button { 
+    background: var(--color-muted-bg); 
+    border: none; 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    color: var(--color-text-primary); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contador button:hover { 
+    background: #e4e4e7; 
+}
+
+.contador span { 
+    font-weight: 600; 
+    width: 24px; 
+    text-align: center; 
+    color: var(--color-text-primary);
+}
+
+.footer { 
+    padding: 1.2rem 1.5rem; 
+    border-top: 1px solid var(--color-border); 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 12px; 
+    background: var(--color-page-bg);
+    border-radius: 0 0 12px 12px;
+}
+
+.btnCancelar { 
+    background: white; 
+    border: 1px solid var(--color-border); 
+    padding: 10px 18px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+    color: var(--color-text-primary); 
+}
+
+.btnConfirmar { 
+    background: var(--brand-primary); 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: 600; 
+}
+
+.btnConfirmar:hover { background: var(--brand-primary-hover); }
+.btnConfirmar:disabled, .btnCancelar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+    color: var(--brand-primary);
+    gap: 12px;
+    font-weight: 500;
+}
+
+.spin { animation: spin 1s linear infinite; }
+.emptyCardapio { color: var(--color-danger); font-size: 0.95rem; padding: 1rem; background: var(--color-danger-soft); border-radius: 8px; text-align: center; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 600px) {
+    .gridAlimentos { grid-template-columns: 1fr; }
+}
+
+.listaProdutos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.produtoLinha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+}
+
+.produtoInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    color: var(--color-text-primary);
+}
+
+.produtoInfo span {
+    color: var(--brand-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 600px) {
+    .modalOverlay,
+    .overlay {
+        padding: 8px;
+    }
+
+    .modalContent,
+    .modal {
+        width: 100%;
+        max-width: 100%;
+        max-height: 94dvh;
+        padding: 14px 12px;
+    }
+
+    .gridAlimentos {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .footer,
+    .modalFooter {
+        gap: 8px;
+    }
+}

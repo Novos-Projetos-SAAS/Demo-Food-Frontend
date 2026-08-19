@@ -1,0 +1,517 @@
+:global(body) {
+    margin: 0;
+    background: #f7f5f4;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 460px;
+    min-height: 100dvh;
+    margin: 0 auto;
+    padding: 0 14px 40px;
+    background: var(--color-surface);
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.container * {
+    box-sizing: border-box;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 2px 16px;
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(8px);
+}
+
+.btnVoltar {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid #e7e3e1;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--brand-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.btnVoltar:hover {
+    background: var(--brand-primary-soft);
+    border-color: #d7b5ae;
+}
+
+.btnVoltar:active {
+    transform: scale(0.94);
+}
+
+.header h1 {
+    min-width: 0;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 1.35rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+/* BUSCA */
+.buscaForm {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    margin-bottom: 20px;
+    background: #f8f6f5;
+    border: 1px solid #ebe7e5;
+    border-radius: 14px;
+}
+
+.inputBusca {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 10px;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.inputBusca::placeholder {
+    color: var(--color-text-muted);
+}
+
+.inputBusca:focus {
+    box-shadow: 0 0 0 2px rgba(var(--brand-primary-rgb), 0.14);
+}
+
+.btnBuscar {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: var(--brand-primary);
+    color: var(--color-on-brand);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.btnBuscar:hover:not(:disabled) {
+    background: var(--brand-primary-hover);
+}
+
+.btnBuscar:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.btnBuscar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* MENSAGENS */
+.erro {
+    width: 100%;
+    padding: 13px 14px;
+    margin: 0 0 18px;
+    border: 1px solid var(--color-danger-border);
+    border-radius: 12px;
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.loading {
+    padding: 45px 10px;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* LISTA */
+.listaPedidos {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.cardRastreio {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 18px;
+    border: 1px solid #ebe7e5;
+    border-radius: 18px;
+    background: var(--color-surface);
+    box-shadow: 0 4px 18px rgba(56, 38, 34, 0.05);
+    overflow: hidden;
+}
+
+/* CABEÇALHO DO PEDIDO */
+.cardHeader {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 15px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid #f0eded;
+}
+
+.cardHeader > div:first-child {
+    flex: 1;
+    min-width: 0;
+}
+
+.cardHeader h2 {
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+    font-size: 1.08rem;
+    font-weight: 700;
+}
+
+.cardHeader span {
+    color: #8b8582;
+    font-size: 0.8rem;
+}
+
+.badgeStatus {
+    max-width: 45%;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+    overflow-wrap: anywhere;
+}
+
+.badgePendente {
+    background: #fff3ed;
+    color: var(--brand-primary);
+}
+
+.badgePreparo {
+    background: #fff7d6;
+    color: #8a6814;
+}
+
+.badgeRetirada {
+    background: #eeeaff;
+    color: #5b4b9a;
+}
+
+.badgeEntrega {
+    background: #e7f6ec;
+    color: #277a45;
+}
+
+.badgeEntregue {
+    background: #e6f6ea;
+    color: #21783c;
+}
+
+.badgeCancelado {
+    background: #fdeaea;
+    color: #b33d3d;
+}
+
+.badgeDefault {
+    background: #f1f1f1;
+    color: var(--color-text-secondary);
+}
+
+/* TIMELINE */
+.timeline {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.etapa {
+    flex: 1;
+    min-width: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    color: #c4bfbc;
+}
+
+.etapa span {
+    width: 100%;
+    max-width: 78px;
+    color: inherit;
+    font-size: 0.61rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.iconeWrap {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #ded9d6;
+    border-radius: 50%;
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.iconeWrap svg {
+    width: 17px;
+    height: 17px;
+}
+
+.etapaAtiva {
+    color: var(--brand-primary);
+}
+
+.etapaAtiva .iconeWrap {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    color: var(--color-on-brand);
+    box-shadow: 0 3px 8px rgba(var(--brand-primary-rgb), 0.18);
+}
+
+.linha {
+    flex: 1;
+    min-width: 4px;
+    height: 2px;
+    margin: 18px -3px 0;
+    background: #e9e5e3;
+    transition: background 0.25s ease;
+}
+
+.linhaAtiva {
+    background: var(--brand-primary);
+}
+
+/* CANCELADO */
+.alertaCancelado {
+    width: 100%;
+    min-width: 0;
+    padding: 22px 15px;
+    margin-bottom: 24px;
+    border: 1px solid #f7cccc;
+    border-radius: 14px;
+    background: #fff6f6;
+    color: #b33d3d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.alertaCancelado p {
+    margin: 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* ITENS */
+.itensResumo {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding-top: 18px;
+    border-top: 1px solid #f0eded;
+}
+
+.itensResumo h3 {
+    margin: 0 0 16px;
+    color: #8b8582;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.itemMarmita {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 11px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-bottom: 1px solid #f5f3f2;
+}
+
+.itemMarmita:last-child {
+    border-bottom: none;
+}
+
+.itemMarmita strong {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    color: #494443;
+    font-size: 0.92rem;
+    font-weight: 650;
+    line-height: 1.35;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.itemMarmita span {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    color: #817b78;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* OBSERVAÇÃO */
+.itemObservacao {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 6px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--brand-primary);
+    border-radius: 0 8px 8px 0;
+    background: var(--brand-primary-soft);
+    color: var(--brand-primary) !important;
+    font-size: 0.78rem !important;
+    font-style: normal;
+    line-height: 1.45 !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* TOTAL */
+.cardFooter {
+    width: 100%;
+    min-width: 0;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #f8f4f3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #494443;
+}
+
+.cardFooter strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cardFooter span {
+    color: var(--brand-primary);
+    font-size: 1.05rem;
+    font-weight: 750;
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .cardRastreio {
+        padding: 14px;
+    }
+
+    .badgeStatus {
+        max-width: 42%;
+        padding: 5px 8px;
+        font-size: 0.6rem;
+    }
+
+    .iconeWrap {
+        width: 34px;
+        height: 34px;
+    }
+
+    .iconeWrap svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .linha {
+        margin-top: 16px;
+    }
+
+    .etapa span {
+        font-size: 0.56rem;
+    }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

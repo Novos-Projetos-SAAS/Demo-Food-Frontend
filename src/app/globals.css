@@ -1,0 +1,337 @@
+/* ============================================================
+   TEMA GLOBAL - DEMO FOOD
+   Claro por padrão. O tema escuro só é ativado explicitamente
+   com html[data-theme="dark"].
+   ============================================================ */
+
+:root,
+html[data-theme="light"] {
+    color-scheme: light;
+
+    --brand-primary: #c75b2a;
+    --brand-primary-rgb: 199, 91, 42;
+    --brand-primary-hover: #a94b21;
+    --brand-primary-soft: #fff7ed;
+    --brand-primary-border: #fed7aa;
+    --brand-secondary: #8b6f61;
+
+    --color-page-bg: #f7f7f8;
+    --color-surface: #ffffff;
+    --color-muted-bg: #f4f4f5;
+    --color-text-primary: #27272a;
+    --color-text-secondary: #71717a;
+    --color-text-muted: #a1a1aa;
+    --color-border: #e4e4e7;
+    --color-border-strong: #d4d4d8;
+    --color-on-brand: #ffffff;
+
+    --sidebar-bg: #ffffff;
+    --sidebar-hover: #f4f4f5;
+    --sidebar-border: #e4e4e7;
+    --sidebar-text: #52525b;
+
+    --color-success: #15803d;
+    --color-success-soft: #f0fdf4;
+    --color-success-border: #bbf7d0;
+    --color-danger: #dc2626;
+    --color-danger-soft: #fef2f2;
+    --color-danger-border: #fecaca;
+    --color-warning: #a16207;
+    --color-warning-soft: #fffbeb;
+    --color-warning-border: #fde68a;
+    --color-info: #2563eb;
+    --color-info-soft: #eff6ff;
+    --color-info-border: #bfdbfe;
+
+    --shadow-rgb: 24, 24, 27;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --brand-primary: #fb923c;
+    --brand-primary-rgb: 251, 146, 60;
+    --brand-primary-hover: #f97316;
+    --brand-primary-soft: #431407;
+    --brand-primary-border: #9a3412;
+    --brand-secondary: #d6b5a5;
+
+    --color-page-bg: #18181b;
+    --color-surface: #27272a;
+    --color-muted-bg: #3f3f46;
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #d4d4d8;
+    --color-text-muted: #a1a1aa;
+    --color-border: #3f3f46;
+    --color-border-strong: #52525b;
+    --color-on-brand: #ffffff;
+
+    --sidebar-bg: #202023;
+    --sidebar-hover: #323236;
+    --sidebar-border: #3f3f46;
+    --sidebar-text: #d4d4d8;
+
+    --color-success: #4ade80;
+    --color-success-soft: #052e16;
+    --color-success-border: #166534;
+    --color-danger: #f87171;
+    --color-danger-soft: #450a0a;
+    --color-danger-border: #991b1b;
+    --color-warning: #fbbf24;
+    --color-warning-soft: #451a03;
+    --color-warning-border: #92400e;
+    --color-info: #60a5fa;
+    --color-info-soft: #172554;
+    --color-info-border: #1e40af;
+
+    --shadow-rgb: 0, 0, 0;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+    background: var(--color-page-bg);
+    color: var(--color-text-primary);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+*, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+}
+
+/* 
+===========================================
+
+    SCROLLBAR DISCRETA
+
+===========================================
+*/
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+    background-clip: padding-box;
+}
+
+@media screen {
+    .area-impressao {
+        display: none !important;
+    }
+}
+
+/* @media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .area-impressao, .area-impressao * {
+        visibility: visible;
+    }
+    
+    .area-impressao {
+        display: block !important;
+
+        width: 100%;
+        padding: 10px;
+    }
+} */
+
+/* -----------------------------------*/
+/* @media print {
+    
+    @page {
+        size: landscape;
+        margin: 1cm; 
+    }
+    
+    body * {
+        visibility: hidden;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .area-impressao, .area-impressao * {
+        visibility: visible;
+    }
+    
+    .area-impressao {
+        display: block !important;
+        width: 100%;
+        padding: 10px;
+    }
+} */
+/* -----------------------------------*/
+
+@media print {
+    /* 1. Orientação e margem */
+    @page {
+        size: landscape;
+        margin: 1cm;
+    }
+
+    /* 2. OPÇÃO NUCLEAR: Destrava qualquer div que esteja bloqueando a paginação */
+    *, *::before, *::after {
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    /* 3. Força os containers principais a não usarem Flexbox (Flexbox quebra a página) */
+    html, body, #__next, #root {
+        height: auto !important;
+        display: block !important; 
+        position: static !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 4. Esconde o sistema */
+    .no-print {
+        display: none !important;
+    }
+    
+    /* 5. Exibe a tabela livremente */
+    .area-impressao {
+        display: block !important;
+        position: static !important;
+        width: 100%;
+    }
+
+    /* 6. Regras de quebra de tabela */
+    .tabela-impressao {
+        page-break-inside: auto;
+    }
+    
+    .tabela-impressao thead {
+        display: table-header-group;
+    }
+    
+    .tabela-impressao tfoot {
+        display: table-footer-group;
+    }
+    
+    .tabela-impressao tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+/* Base previsível de dimensionamento em qualquer viewport */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+fieldset,
+form,
+main,
+section,
+article,
+div {
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    button,
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .swal2-popup {
+        width: calc(100vw - 24px) !important;
+        max-width: 420px !important;
+        padding: 1.25rem !important;
+    }
+}

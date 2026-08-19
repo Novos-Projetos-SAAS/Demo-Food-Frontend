@@ -1,0 +1,78 @@
+.wrapper {
+    width: 100%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.btnVoltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-secondary); /* Zinco 500 */
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+    width: fit-content;
+}
+
+.btnVoltar:hover {
+    color: var(--brand-primary); /* Laranja hover */
+}
+
+.title {
+    color: var(--color-text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    gap: 1rem;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+    color: var(--brand-primary);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === DEMO MOBILE UX REVIEW === */
+@media (max-width: 640px) {
+    .header {
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    .title {
+        font-size: 1.3rem;
+        line-height: 1.25;
+    }
+
+    .btnVoltar {
+        min-height: 36px;
+        align-items: center;
+    }
+}
