@@ -446,7 +446,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AlertTriangle, PackagePlus, RefreshCw, Trash2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -485,7 +485,12 @@ export default function Carrinho() {
     } = usePedido();
 
     const { metodosPagamento, loadingMetodosPagamento } = useMetodosPagamento();
+
     const { finalizarPedidoNoBanco, enviando } = usePedidos();
+    const [verificandoConfirmacao, setVerificandoConfirmacao] =
+        useState(false);
+
+    const confirmacaoEmAndamentoRef = useRef(false);
 
     const [form, setForm] = useState({
         nome: '',
@@ -675,94 +680,252 @@ export default function Carrinho() {
         router.push('/pedido/complementos');
     };
 
+
     const finalizarPedido = async (event) => {
         event.preventDefault();
 
-        if (enviando || pedidoBloqueado) return;
-
-        const lojaValida = await validarLojaParaAcao();
-        if (!lojaValida) {
-            router.replace('/');
+        // Bloqueia imediatamente outras confirmações.
+        if (
+            confirmacaoEmAndamentoRef.current ||
+            enviando ||
+            pedidoBloqueado
+        ) {
             return;
         }
 
-        if (carrinho.length === 0) {
-            return toast.error('Adicione pelo menos uma marmita com alimentos para finalizar o pedido.');
-        }
+        confirmacaoEmAndamentoRef.current = true;
+        setVerificandoConfirmacao(true);
 
-        if (!form.metodo_pagamento_id) {
-            return toast.error('Por favor, selecione a forma de pagamento.');
-        }
+        try {
+            // ====================================
+            // 1. VERIFICAR STATUS DA LOJA
+            // ====================================
 
-        const telefoneLimpo = String(form.telefone || '').replace(/\D/g, '');
+            const lojaValida = await validarLojaParaAcao();
 
-        if (telefoneLimpo.length < 10 || telefoneLimpo.length > 11) {
-            return toast.error('Informe um telefone válido com DDD.');
-        }
+            if (!lojaValida) {
+                // Falha de rede não deve descartar o carrinho.
+                if (lojaAbertaPedido === false) {
+                    router.replace('/');
+                }
 
-        if (isPagamentoDinheiro && form.precisa_troco) {
-            const trocoDigitado = String(form.troco_para || '');
-            const totalDigitosTroco = trocoDigitado.replace(/\D/g, '').length;
-            const valorTroco = Number(trocoDigitado.replace(',', '.'));
-
-            if (totalDigitosTroco === 0 || totalDigitosTroco > 7) {
-                return toast.error('O valor do troco deve possuir no máximo 7 dígitos.');
+                return;
             }
 
-            if (!Number.isFinite(valorTroco) || valorTroco <= totalGeral) {
-                return toast.error(`O valor do troco deve ser maior que o total do pedido (${formatarMoeda(totalGeral)}).`);
-            }
-        }
+            // ====================================
+            // 2. VALIDAR MARMITAS
+            // ====================================
 
-        let enderecoFormatado = null;
-
-        if (form.metodo_entrega === 'Entrega') {
-            if (!form.logradouro || !form.numero) {
-                return toast.error('Para entrega, preencha a Rua/Avenida e o Número.');
+            if (carrinho.length === 0) {
+                return toast.error(
+                    'Adicione pelo menos uma marmita para finalizar o pedido.'
+                );
             }
 
-            enderecoFormatado = `${form.logradouro}, ${form.numero} - Centro (${form.complemento || 'Sem complemento'})`;
+            // ====================================
+            // 3. VALIDAR PAGAMENTO
+            // ====================================
+
+            if (!form.metodo_pagamento_id) {
+                return toast.error(
+                    'Por favor, selecione a forma de pagamento.'
+                );
+            }
+
+            // ====================================
+            // 4. VALIDAR TELEFONE
+            // ====================================
+
+            const telefoneLimpo = String(
+                form.telefone || ''
+            ).replace(/\D/g, '');
+
+            if (
+                telefoneLimpo.length < 10 ||
+                telefoneLimpo.length > 11
+            ) {
+                return toast.error(
+                    'Informe um telefone válido com DDD.'
+                );
+            }
+
+            // ====================================
+            // 5. VALIDAR TROCO
+            // ====================================
+
+            if (isPagamentoDinheiro && form.precisa_troco) {
+                const trocoDigitado = String(
+                    form.troco_para || ''
+                );
+
+                const totalDigitosTroco = trocoDigitado
+                    .replace(/\D/g, '').length;
+
+                const valorTroco = Number(
+                    trocoDigitado.replace(',', '.')
+                );
+
+                if (
+                    totalDigitosTroco === 0 ||
+                    totalDigitosTroco > 7
+                ) {
+                    return toast.error(
+                        'O valor do troco deve possuir no máximo 7 dígitos.'
+                    );
+                }
+
+                if (
+                    !Number.isFinite(valorTroco) ||
+                    valorTroco <= totalGeral
+                ) {
+                    return toast.error(
+                        `O valor do troco deve ser maior que o total do pedido (${formatarMoeda(totalGeral)}).`
+                    );
+                }
+            }
+
+            // ====================================
+            // 6. VALIDAR ENDEREÇO
+            // ====================================
+
+            let enderecoFormatado = null;
+
+            if (form.metodo_entrega === 'Entrega') {
+                if (!form.logradouro || !form.numero) {
+                    return toast.error(
+                        'Para entrega, preencha a Rua/Avenida e o Número.'
+                    );
+                }
+
+                enderecoFormatado =
+                    `${form.logradouro}, ${form.numero} - Centro ` +
+                    `(${form.complemento || 'Sem complemento'})`;
+            }
+
+            // ====================================
+            // 7. PREPARAR DADOS DO PEDIDO
+            // ====================================
+
+            const payload = {
+                nome_cliente: form.nome,
+                telefone_cliente: telefoneLimpo,
+                endereco_cliente: enderecoFormatado,
+                metodo_entrega: form.metodo_entrega,
+                metodo_pagamento_id: Number(
+                    form.metodo_pagamento_id
+                ),
+                tipo_pedido: form.tipo_pedido,
+                observacoes: form.observacoes,
+
+                precisa_troco: isPagamentoDinheiro
+                    ? form.precisa_troco
+                    : false,
+
+                troco_para:
+                    isPagamentoDinheiro && form.precisa_troco
+                        ? Number(
+                            String(form.troco_para)
+                                .replace(',', '.')
+                        )
+                        : null,
+
+                marmitas: marmitasPersonalizadas.map((item) => ({
+                    tamanho_id: Number(item.tamanho.id),
+                    quantidade: Number(item.quantidade),
+
+                    alimentos: (item.itens || []).map(
+                        (alimento) => Number(alimento.id)
+                    ),
+
+                    observacao: item.observacao || null
+                })),
+
+                marmitas_especiais: marmitasEspeciais.map(
+                    (item) => ({
+                        marmita_especial_id: Number(
+                            item.marmita_especial_id
+                        ),
+                        quantidade: Number(item.quantidade),
+                        preco_referencia: Number(item.preco)
+                    })
+                ),
+
+                produtos: produtosCarrinho.map((produto) => ({
+                    produto_id: Number(produto.id),
+                    quantidade: Number(produto.quantidade),
+                    preco_referencia: Number(produto.preco)
+                }))
+            };
+
+            // ====================================
+            // 8. ENVIAR PEDIDO
+            // ====================================
+
+            const resposta = await finalizarPedidoNoBanco(
+                payload
+            );
+
+            if (!resposta) {
+                // Preserva o carrinho para nova tentativa.
+                return;
+            }
+
+            // ====================================
+            // 9. TRATAR ALTERAÇÕES NO CARDÁPIO
+            // ====================================
+
+            if (
+                resposta.code === 'ALIMENTOS_INDISPONIVEIS' ||
+                resposta.code === 'MARMITAS_ESPECIAIS_ALTERADAS' ||
+                resposta.code === 'PRODUTOS_INDISPONIVEIS' ||
+                resposta.code === 'PRODUTOS_ALTERADOS'
+            ) {
+                registrarIndisponibilidade(resposta);
+                return;
+            }
+
+            if (resposta.code === 'LOJA_FECHADA') {
+                aplicarStatusLojaLocal(false, {
+                    notificarFechamento: true
+                });
+
+                router.replace('/');
+                return;
+            }
+
+            // ====================================
+            // 10. PEDIDO CONFIRMADO
+            // ====================================
+
+            setFinalizando(true);
+            limparCarrinho();
+            setSucessoPedido(true);
+
+            localStorage.setItem(
+                'marmitaria_telefone_cliente',
+                telefoneLimpo
+            );
+
+            router.push('/pedido/sucesso');
+
+        } catch (error) {
+            console.error(
+                'Erro inesperado na confirmação:',
+                error
+            );
+
+            toast.error(
+                'Não foi possível concluir a confirmação. ' +
+                'Seu carrinho foi preservado.'
+            );
+
+        } finally {
+            // Libera novas tentativas após a execução.
+            confirmacaoEmAndamentoRef.current = false;
+            setVerificandoConfirmacao(false);
         }
-
-        const payload = {
-            nome_cliente: form.nome,
-            telefone_cliente: telefoneLimpo,
-            endereco_cliente: enderecoFormatado,
-            metodo_entrega: form.metodo_entrega,
-            metodo_pagamento_id: Number(form.metodo_pagamento_id),
-            tipo_pedido: form.tipo_pedido,
-            observacoes: form.observacoes,
-            precisa_troco: isPagamentoDinheiro ? form.precisa_troco : false,
-            troco_para: isPagamentoDinheiro && form.precisa_troco ? Number(String(form.troco_para).replace(',', '.')) : null,
-            marmitas: carrinho.map((item) => ({
-                tamanho_id: Number(item.tamanho.id),
-                quantidade: Number(item.quantidade),
-                alimentos: item.itens.map((alimento) => Number(alimento.id)),
-                observacao: item.observacao || null
-            })),
-            produtos: produtosCarrinho.map((produto) => ({ produto_id: Number(produto.id), quantidade: Number(produto.quantidade), preco_referencia: Number(produto.preco) }))
-        };
-
-        const resposta = await finalizarPedidoNoBanco(payload);
-
-        if (!resposta) return;
-
-        if (resposta.code === 'ALIMENTOS_INDISPONIVEIS' || resposta.code === 'PRODUTOS_INDISPONIVEIS' || resposta.code === 'PRODUTOS_ALTERADOS') {
-            registrarIndisponibilidade(resposta);
-            return;
-        }
-        if (resposta.code === 'LOJA_FECHADA') {
-            aplicarStatusLojaLocal(false, { notificarFechamento: true });
-            router.replace('/');
-            return;
-        }
-
-        setFinalizando(true);
-        limparCarrinho();
-        setSucessoPedido(true);
-        localStorage.setItem('marmitaria_telefone_cliente', telefoneLimpo);
-        router.push('/pedido/sucesso');
     };
+
 
     if (carrinho.length === 0) {
         if (finalizando) {
@@ -965,14 +1128,35 @@ export default function Carrinho() {
                     </div>
                 )}
 
+
                 <button
                     type="submit"
                     className={styles.btnFinalizar}
-                    disabled={enviando || loadingMetodosPagamento || pedidoBloqueado || lojaBloqueada}
-                    title={pedidoBloqueado ? 'Atualize ou remova os itens indisponíveis para continuar.' : lojaBloqueada ? 'A loja não está disponível para novos pedidos.' : undefined}
+                    disabled={
+                        enviando ||
+                        verificandoConfirmacao ||
+                        loadingMetodosPagamento ||
+                        pedidoBloqueado ||
+                        lojaBloqueada
+                    }
+                    title={
+                        pedidoBloqueado
+                            ? 'Atualize ou remova os itens alterados para continuar.'
+                            : lojaBloqueada
+                                ? 'A loja não está disponível para novos pedidos.'
+                                : undefined
+                    }
                 >
-                    {pedidoBloqueado ? 'Atualize o pedido para continuar' : lojaBloqueada ? 'Loja fechada' : enviando ? 'Processando...' : `Confirmar Pedido • ${formatarMoeda(totalGeral)}`}
+                    {pedidoBloqueado
+                        ? 'Atualize o pedido para continuar'
+                        : lojaBloqueada
+                            ? 'Loja fechada'
+                            : enviando || verificandoConfirmacao
+                                ? 'Confirmando pedido...'
+                                : `Confirmar Pedido • ${formatarMoeda(totalGeral)}`
+                    }
                 </button>
+
             </form>
 
             {modalIndisponibilidadeAberto && indisponibilidade && (

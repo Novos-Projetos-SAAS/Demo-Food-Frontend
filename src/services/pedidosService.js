@@ -1,7 +1,14 @@
 import api from './api';
 
-export async function criarPedido(dadosPedido) {
-    const response = await api.post('/pedidos', dadosPedido);
+export async function criarPedido(
+    dadosPedido,
+    idempotencyKey
+) {
+    const response = await api.post('/pedidos', {
+        ...dadosPedido,
+        idempotency_key: idempotencyKey
+    });
+
     return response.data;
 }
 
@@ -43,7 +50,14 @@ export async function alterarStatusPedidoAPI(id, novoStatus) {
  * Diferente do POST /pedidos público, esta rota exige
  * autenticação e a permissão pedidos.criar.
  */
-export async function criarPedidoAdmin(dadosPedido) {
-    const response = await api.post('/pedidos/admin', dadosPedido);
+export async function criarPedidoAdmin(
+    dadosPedido,
+    idempotencyKey
+) {
+    const response = await api.post('/pedidos/admin', {
+        ...dadosPedido,
+        idempotency_key: idempotencyKey
+    });
+
     return response.data;
 }
