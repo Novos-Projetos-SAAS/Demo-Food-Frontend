@@ -491,6 +491,9 @@ export default function Carrinho() {
         useState(false);
 
     const confirmacaoEmAndamentoRef = useRef(false);
+    // Não permite que uma confirmação já concluída origine outra compra.
+    const pedidoConfirmadoRef = useRef(false);
+    const [pedidoConfirmado, setPedidoConfirmado] = useState(false);
 
     const [form, setForm] = useState({
         nome: '',
@@ -687,8 +690,11 @@ export default function Carrinho() {
         // Bloqueia imediatamente outras confirmações.
         if (
             confirmacaoEmAndamentoRef.current ||
+            pedidoConfirmadoRef.current ||
+            finalizando ||
             enviando ||
-            pedidoBloqueado
+            pedidoBloqueado ||
+            lojaBloqueada
         ) {
             return;
         }
@@ -829,7 +835,7 @@ export default function Carrinho() {
                         )
                         : null,
 
-                marmitas: marmitasPersonalizadas.map((item) => ({
+                marmitas: carrinho.map((item) => ({
                     tamanho_id: Number(item.tamanho.id),
                     quantidade: Number(item.quantidade),
 
@@ -839,16 +845,6 @@ export default function Carrinho() {
 
                     observacao: item.observacao || null
                 })),
-
-                marmitas_especiais: marmitasEspeciais.map(
-                    (item) => ({
-                        marmita_especial_id: Number(
-                            item.marmita_especial_id
-                        ),
-                        quantidade: Number(item.quantidade),
-                        preco_referencia: Number(item.preco)
-                    })
-                ),
 
                 produtos: produtosCarrinho.map((produto) => ({
                     produto_id: Number(produto.id),
@@ -897,6 +893,8 @@ export default function Carrinho() {
             // 10. PEDIDO CONFIRMADO
             // ====================================
 
+            pedidoConfirmadoRef.current = true;
+            setPedidoConfirmado(true);
             setFinalizando(true);
             limparCarrinho();
             setSucessoPedido(true);
@@ -1135,6 +1133,8 @@ export default function Carrinho() {
                     disabled={
                         enviando ||
                         verificandoConfirmacao ||
+                        pedidoConfirmado ||
+                        finalizando ||
                         loadingMetodosPagamento ||
                         pedidoBloqueado ||
                         lojaBloqueada
@@ -1149,11 +1149,13 @@ export default function Carrinho() {
                 >
                     {pedidoBloqueado
                         ? 'Atualize o pedido para continuar'
-                        : lojaBloqueada
-                            ? 'Loja fechada'
-                            : enviando || verificandoConfirmacao
-                                ? 'Confirmando pedido...'
-                                : `Confirmar Pedido • ${formatarMoeda(totalGeral)}`
+                        : pedidoConfirmado || finalizando
+                            ? 'Pedido confirmado!'
+                            : lojaBloqueada
+                                ? 'Loja fechada'
+                                : enviando || verificandoConfirmacao
+                                    ? 'Confirmando pedido...'
+                                    : `Confirmar Pedido • ${formatarMoeda(totalGeral)}`
                     }
                 </button>
 
